@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: web
-        image: django-web-server:latest
+        image: django-app:v1
+        command: ["gunicorn", "--reload", "-b", "0.0.0.0:8000", "--workers", "3", "config.wsgi:application"]
         ports:
         - containerPort: 8000
         env:
