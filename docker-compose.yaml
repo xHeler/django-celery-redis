@@ -3,7 +3,7 @@ version: '3'
 services:
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn --reload -b 0.0.0.0:8000 --workers 3 config.wsgi:application
     volumes:
       - .:/code
     ports:
@@ -22,11 +22,3 @@ services:
 
   redis:
     image: redis:latest
-
-  celery-beat:
-    build: .
-    command: celery -A myproject beat --loglevel=info
-    volumes:
-      - .:/code
-    depends_on:
-      - redis
